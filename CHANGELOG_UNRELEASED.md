@@ -48,6 +48,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added intro pattern ltac views for dup, swap, apply:
   `/[apply]`, `/[swap]` and `/[dup]`.
 
+- Added intro pattern ltac views for rewrite:
+  `/[1! rules]`, `/[! rules]`.
+
 - in `bigop.v` new lemma `sig_big_dep`, analogous to `pair_big_dep`
   but with an additional dependency in the index types `I` and `J`.
 - in `fintype.v` adds lemma `split_ordP`, a variant of `splitP` which

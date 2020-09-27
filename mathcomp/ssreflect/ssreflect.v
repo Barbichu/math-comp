@@ -30,6 +30,9 @@ Global Set Bullet Behavior "None".
 (*  Import Deprecation.Reject :: raise an error instead of only warning.      *)
 (*                                                                            *)
 (*   Intro pattern ltac views:                                                *)
+(*   - calling rewrite from an intro pattern, use with parsimony              *)
+(*     => /[1! rules]  := rewrite rules                                       *)
+(*     => /[! rules]   := rewrite !rules                                      *)
 (*   - top of the stack actions:                                              *)
 (*     => /[apply]     := => hyp {}/hyp                                       *)
 (*     => /[swap]      := => x y; move: y x                                   *)
@@ -105,6 +108,10 @@ Export Deprecation.Exports.
 
 Module Export ipat.
 
+Notation "'[' '1' '!' rules ']'"     := (ltac:(rewrite rules))
+  (at level 0, rules at level 200, only parsing) : ssripat_scope.
+Notation "'[' '!' rules ']'"         := (ltac:(rewrite !rules))
+  (at level 0, rules at level 200, only parsing) : ssripat_scope.
 Notation "'[' 'apply' ']'" := (ltac:(let f := fresh "_top_" in move=> f {}/f))
   (at level 0, only parsing) : ssripat_scope.
 
