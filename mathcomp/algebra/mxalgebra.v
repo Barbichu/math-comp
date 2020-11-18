@@ -1555,7 +1555,7 @@ Lemma genmx_bigcap P n (A_ : I -> 'M_n) :
   (<<\bigcap_(i | P i) A_ i>> = \bigcap_(i | P i) <<A_ i>>)%MS.
 Proof. exact: (big_morph _ (@genmx_cap n n n) (@genmx1 n)). Qed.
 
-Lemma matrix_modl m1 m2 m3 n (A : 'M_(m1, n)) (B : 'M_(m2, n)) (C : 'M_(m3, n)) :
+Lemma mx_modl m1 m2 m3 n (A : 'M_(m1, n)) (B : 'M_(m2, n)) (C : 'M_(m3, n)) :
   (A <= C -> A + (B :&: C) :=: (A + B) :&: C)%MS.
 Proof.
 move=> sAC; set D := ((A + B) :&: C)%MS; apply/eqmxP.
@@ -1566,9 +1566,9 @@ rewrite sub_capmx submxMl -[_ *m B](addrK (u.2 *m A)) -defD.
 by rewrite addmx_sub ?capmxSr // eqmx_opp mulmx_sub.
 Qed.
 
-Lemma matrix_modr m1 m2 m3 n (A : 'M_(m1, n)) (B : 'M_(m2, n)) (C : 'M_(m3, n)) :
+Lemma mx_modr m1 m2 m3 n (A : 'M_(m1, n)) (B : 'M_(m2, n)) (C : 'M_(m3, n)) :
   (C <= A -> (A :&: B) + C :=: A :&: (B + C))%MS.
-Proof. by rewrite !(capmxC A) -!(addsmxC C); apply: matrix_modl. Qed.
+Proof. by rewrite !(capmxC A) -!(addsmxC C); apply: mx_modl. Qed.
 
 Lemma capmx_compl m n (A : 'M_(m, n)) : (A :&: A^C)%MS = 0.
 Proof.
@@ -2428,7 +2428,7 @@ apply: eq_bigr => A rAm; rewrite (reindex (col_mx^~ A)) /=; last first.
   exists usubmx => [v _ | vA]; first by rewrite col_mxKu.
   by case/andP=> _ /eqP <-; rewrite vsubmxK.
 transitivity #|~: [set v *m A | v in 'rV_m]|; last first.
-  rewrite cardsCs setCK card_imset ?card_matrix ?card_ord ?mul1n //.
+  rewrite cardsCs setCK card_imset ?card_mx ?card_ord ?mul1n //.
   have [B AB1] := row_freeP rAm; apply: can_inj (mulmx^~ B) _ => v.
   by rewrite -mulmxA AB1 mulmx1.
 rewrite -sum1_card; apply: eq_bigl => v; rewrite !inE col_mxKd eqxx.
@@ -2446,11 +2446,11 @@ Proof.
 case: n => // n' _; set n := n'.+1; set p := #|F|.
 rewrite cardsT /= card_sub /GRing.unit /= big_add1 /= -triangular_sum -/n.
 elim: {n'}n => [|n IHn].
-  rewrite !big_geq // mul1n (@eq_card _ _ predT) ?card_matrix //= => M.
+  rewrite !big_geq // mul1n (@eq_card _ _ predT) ?card_mx //= => M.
   by rewrite {1}[M]flatmx0 -(flatmx0 1%:M) unitmx1.
 rewrite !big_nat_recr //= expnD mulnAC mulnA -{}IHn -mulnA mulnC.
 set LHS := #|_|; rewrite -[n.+1]muln1 -{2}[n]mul1n {}/LHS.
-rewrite -!card_matrix subn1 -(cardC1 0) -mulnA; set nzC := predC1 _.
+rewrite -!card_mx subn1 -(cardC1 0) -mulnA; set nzC := predC1 _.
 rewrite -sum1_card (partition_big lsubmx nzC) => [|A]; last first.
   rewrite unitmxE unitfE; apply: contra; move/eqP=> v0.
   rewrite -[A]hsubmxK v0 -[n.+1]/(1 + n)%N -col_mx0.

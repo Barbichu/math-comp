@@ -218,7 +218,7 @@ Proof. by apply/setP=> u; rewrite !inE sub_capmx. Qed.
 
 Lemma card_rowg m (A : 'M_(m, n)) : #|rowg A| = (#|F| ^ \rank A)%N.
 Proof.
-rewrite -[\rank A]mul1n -card_matrix.
+rewrite -[\rank A]mul1n -card_mx.
 have injA: injective (mulmxr (row_base A)).
   have /row_freeP[A' A'K] := row_base_free A.
   by move=> ?; apply: can_inj (mulmxr A') _ => u; rewrite /= -mulmxA A'K mulmx1.
@@ -362,17 +362,17 @@ Proof.
 wlog q_gt1: q / q > 1 by case: q => [|[|q -> //]] /(_ 2)->.
 set G := setT; have cGG: abelian G := zmod_abelian _.
 have [mn0 | ] := posnP (m * n).
-  by rewrite [G](card1_trivg _) ?rank1 // cardsT card_matrix mn0.
+  by rewrite [G](card1_trivg _) ?rank1 // cardsT card_mx mn0.
 rewrite muln_gt0 => /andP[m_gt0 n_gt0].
 have expG: exponent G = q := exponent_mx_group m_gt0 n_gt0 q_gt1.
 apply/eqP; rewrite eqn_leq andbC -(leq_exp2l _ _ q_gt1) -{2}expG.
-have ->: (q ^ (m * n))%N = #|G| by rewrite cardsT card_matrix card_ord Zp_cast.
+have ->: (q ^ (m * n))%N = #|G| by rewrite cardsT card_mx card_ord Zp_cast.
 rewrite max_card_abelian //= -grank_abelian //= -/G.
 pose B : {set 'M['Z_q]_(m, n)} := [set delta_mx ij.1 ij.2 | ij : 'I_m * 'I_n].
 suffices ->: G = <<B>>.
   have ->: (m * n)%N = #|{: 'I_m * 'I_n}| by rewrite card_prod !card_ord.
   exact: leq_trans (grank_min _) (leq_imset_card _ _).
-apply/setP=> v; rewrite inE (matrix_sum_delta v).
+apply/setP=> v; rewrite inE (mx_sum_delta v).
 rewrite group_prod // => i _; rewrite group_prod // => j _.
 rewrite -[v i j]natr_Zp scaler_nat groupX // mem_gen //.
 by apply/imsetP; exists (i, j).
@@ -382,7 +382,7 @@ Lemma mx_group_homocyclic m n q : homocyclic [set: 'M['Z_q]_(m, n)].
 Proof.
 wlog q_gt1: q / q > 1 by case: q => [|[|q -> //]] /(_ 2)->.
 set G := setT; have cGG: abelian G := zmod_abelian _.
-rewrite -max_card_abelian //= rank_mx_group cardsT card_matrix card_ord -/G.
+rewrite -max_card_abelian //= rank_mx_group cardsT card_mx card_ord -/G.
 rewrite {1}Zp_cast //; have [-> // | ] := posnP (m * n).
 by rewrite muln_gt0 => /andP[m_gt0 n_gt0]; rewrite exponent_mx_group.
 Qed.
@@ -474,7 +474,7 @@ Qed.
 
 Lemma card_abelem_rV : #|rVn| = #|E|.
 Proof.
-by rewrite dim_abelemE card_matrix mul1n card_Fp // -p_part part_pnat_id.
+by rewrite dim_abelemE card_mx mul1n card_Fp // -p_part part_pnat_id.
 Qed.
 
 Lemma isog_abelem_rV : E \isog [set: rVn].

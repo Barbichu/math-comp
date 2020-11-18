@@ -646,7 +646,7 @@ Proof. by rewrite memv_cap; apply: andP. Qed.
 
 Lemma vspace_modl U V W : (U <= W -> U + (V :&: W) = (U + V) :&: W)%VS.
 Proof.
-by move=> sUV; apply/vs2mxP; rewrite !(vs2mxD, vs2mxI); apply/eqmxP/matrix_modl.
+by move=> sUV; apply/vs2mxP; rewrite !(vs2mxD, vs2mxI); apply/eqmxP/mx_modl.
 Qed.
 
 Lemma vspace_modr  U V W : (W <= U -> (U :&: V) + W = U :&: (V + W))%VS.

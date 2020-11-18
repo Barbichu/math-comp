@@ -458,6 +458,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   + `coprimez_mul(l|r)` -> `coprimezM(l|r)`
   + `coprimez_exp(l|r)` -> `coprimezX(l|r)`
 
+- `matrix.v`,
+  + `card_matrix` -> `card_mx`
+  + `matrix_eq0` -> `mx_eq0`
+  + `matrix0Pn` -> `mx0Pn`
+  + `matrix_sum_delta` -> `mx_sub_delta`
+
+- `mxalgebra.v`,
+  + `matrix_modl` -> `mx_modl`
+  + `matrix_modr` -> `mx_modr`
+
 ### Removed
 
 - in `interval.v`, we remove the following:

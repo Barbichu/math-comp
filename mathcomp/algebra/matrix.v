@@ -306,7 +306,7 @@ Canonical matrix_finType (R : finType) m n :=
 Canonical matrix_subFinType (R : finType) m n :=
   Eval hnf in [subFinType of 'M[R]_(m, n)].
 
-Lemma card_matrix (F : finType) m n : (#|{: 'M[F]_(m, n)}| = #|F| ^ (m * n))%N.
+Lemma card_mx (F : finType) m n : (#|{: 'M[F]_(m, n)}| = #|F| ^ (m * n))%N.
 Proof. by rewrite card_sub card_ffun card_prod !card_ord. Qed.
 
 (*****************************************************************************)
@@ -1468,27 +1468,27 @@ Proof. by rewrite col_mx_eq0 !row_mx_eq0 !andbA. Qed.
 Lemma trmx_eq0  m n (A : 'M_(m, n)) : (A^T == 0) = (A == 0).
 Proof. by rewrite -trmx0 (inj_eq trmx_inj). Qed.
 
-Lemma matrix_eq0 m n (A : 'M_(m, n)) :
+Lemma mx_eq0 m n (A : 'M_(m, n)) :
   (A == 0) = [forall i, forall j, A i j == 0].
 Proof.
 apply/eqP/'forall_'forall_eqP => [-> i j|A_eq0]; first by rewrite !mxE.
 by apply/matrixP => i j; rewrite A_eq0 !mxE.
 Qed.
 
-Lemma matrix0Pn m n (A : 'M_(m, n)) : reflect (exists i j, A i j != 0) (A != 0).
+Lemma mx0Pn m n (A : 'M_(m, n)) : reflect (exists i j, A i j != 0) (A != 0).
 Proof.
-by rewrite matrix_eq0; apply/(iffP forallPn) => -[i /forallPn]; exists i.
+by rewrite mx_eq0; apply/(iffP forallPn) => -[i /forallPn]; exists i.
 Qed.
 
 Lemma rV0Pn n (v : 'rV_n) : reflect (exists i, v 0 i != 0) (v != 0).
 Proof.
-apply: (iffP (matrix0Pn _)) => [[i [j]]|[j]]; last by exists 0, j.
+apply: (iffP (mx0Pn _)) => [[i [j]]|[j]]; last by exists 0, j.
 by rewrite ord1; exists j.
 Qed.
 
 Lemma cV0Pn n (v : 'cV_n) : reflect (exists i, v i 0 != 0) (v != 0).
 Proof.
-apply: (iffP (matrix0Pn _)) => [[i] [j]|[i]]; last by exists i, 0.
+apply: (iffP (mx0Pn _)) => [[i] [j]|[i]]; last by exists i, 0.
 by rewrite ord1; exists i.
 Qed.
 
@@ -1754,7 +1754,7 @@ Canonical matrix_lmodType :=
 Lemma scalemx_const a b : a *: const_mx b = const_mx (a * b).
 Proof. by apply/matrixP=> i j; rewrite !mxE. Qed.
 
-Lemma matrix_sum_delta A :
+Lemma mx_sum_delta A :
   A = \sum_(i < m) \sum_(j < n) A i j *: delta_mx i j.
 Proof.
 apply/matrixP=> i j.
@@ -1800,7 +1800,7 @@ Lemma trmx_delta m n i j : (delta_mx i j)^T = delta_mx j i :> 'M[R]_(n, m).
 Proof. by apply/matrixP=> i' j'; rewrite !mxE andbC. Qed.
 
 Lemma row_sum_delta n (u : 'rV_n) : u = \sum_(j < n) u 0 j *: delta_mx 0 j.
-Proof. by rewrite {1}[u]matrix_sum_delta big_ord1. Qed.
+Proof. by rewrite {1}[u]mx_sum_delta big_ord1. Qed.
 
 Lemma delta_mx_lshift m n1 n2 i j :
   delta_mx i (lshift n2 j) = row_mx (delta_mx i j) 0 :> 'M_(m, n1 + n2).
@@ -2391,7 +2391,7 @@ Variable f : {linear 'rV[R]_m -> 'rV[R]_n}.
 
 Lemma mul_rV_lin1 u : u *m lin1_mx f = f u.
 Proof.
-rewrite {2}[u]matrix_sum_delta big_ord1 linear_sum; apply/rowP=> i.
+rewrite {2}[u]mx_sum_delta big_ord1 linear_sum; apply/rowP=> i.
 by rewrite mxE summxE; apply: eq_bigr => j _; rewrite linearZ !mxE.
 Qed.
 

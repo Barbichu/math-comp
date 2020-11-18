@@ -1844,7 +1844,7 @@ Proof.
 move=> modU sUV redV U1 modU1 sU1U.
 have [W modW defV dxU1W] := redV U1 modU1 (submx_trans sU1U sUV).
 exists (W :&: U)%MS; first exact: capmx_module.
-  by apply/eqmxP; rewrite !matrix_modl // capmxSr sub_capmx defV sUV /=.
+  by apply/eqmxP; rewrite !mx_modl // capmxSr sub_capmx defV sUV /=.
 by apply/mxdirect_addsP; rewrite capmxA (mxdirect_addsP dxU1W) cap0mx.
 Qed.
 
@@ -5777,7 +5777,7 @@ Canonical gen_finIdomainType := Eval hnf in [finIdomainType of FA].
 Canonical gen_finFieldType := Eval hnf in [finFieldType of FA].
 
 Lemma card_gen : #|{:FA}| = (#|F| ^ degree_mxminpoly A)%N.
-Proof. by rewrite card_sub card_matrix mul1n. Qed.
+Proof. by rewrite card_sub card_mx mul1n. Qed.
 
 End FiniteGenField.
 
